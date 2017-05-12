@@ -44,6 +44,8 @@ static const unsigned char PROGMEM logo16_glcd_bmp[] =
 #define BUTRIGHT A1
 #define BUTLEFT A2
 
+// Dont forget to change the values in the redefinition section too!
+
 int quit = 0;
 int stepUD = 0;
 
@@ -106,6 +108,41 @@ void setup()   {
 }
 
 void loop()  {
+  
+  // Redefinition section
+  quit = 0;
+  stepUD = 0;
+
+  x1 = 8;
+  y1 = 6;
+  x2 = 8;
+  y2 = 20;
+  x3 = 23;
+  y3 = 13;
+
+  bulx = 0;
+  buly = 0;
+  bullet = 0;
+  bulletcounter = 0;
+
+  meteox = 0;
+  meteoy = 0;
+  meteor = 0;
+
+  meteox2 = 0;
+  meteoy2 = 0;
+  meteor2 = 0;
+
+  luck = 50;
+  trispeed = 3;
+  score = 0;
+  highscore = 0;
+
+  randx1 = 100;
+  randx2 = 128;
+  randy1 = 6;
+  randy2 = 58;
+  
   display.clearDisplay();
   display.setTextSize(1);
   display.setTextColor(WHITE);
