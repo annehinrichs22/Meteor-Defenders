@@ -79,8 +79,6 @@ int randx2 = 128;
 int randy1 = 6;
 int randy2 = 58;
 
-//PROGMEM prog_int score[] = {0};
-
 void setup()   {
   Serial.begin(9600);
 
@@ -175,7 +173,7 @@ void loop()  {
     display.print(highscore);
     
     display.display();
-    // knipper
+    // turns the text on and off
     delay(200);
     display.setCursor(64 - (128 / 2), 32 - (8 / 2) + 10);
     display.println("Press UP long to continue");
@@ -186,21 +184,13 @@ void loop()  {
 
  score  = 0;
 
-// Deel Twee --------------------The Game--------------
+// Part two --------------------The Game--------------
 
   while (quit == 0) {
     Serial.println("deel twee");
 
 
-    // == is gelijk aan?
-    // != is niet gelijk aan?
-    // <  is kleiner dan
-    // >
-    // <= is kleiner of gelijk aan?
-    // && logische AND
-    // || of
-
-    //checken of de driehoek stout is
+    //check if the triangle is bad
     if ((y1 < 1) /*&& ((y2-14)<1) && ((y3-7)<1)*/) {
       y1 = 0;
       y2 = 14;
@@ -213,7 +203,7 @@ void loop()  {
       y3 = 56;
     }
 
-    //inputs checken
+    //check inputs
     if (digitalRead(BUTDOWN) == HIGH) {
 
       stepUD = stepUD + trispeed;
@@ -232,7 +222,7 @@ void loop()  {
 
     }
 
-    //kogelmaker
+    //bullet maker
     if (bullet == 1) {
       if (bulx < 128) {
         display.drawPixel(bulx, buly, WHITE);
@@ -315,14 +305,14 @@ void loop()  {
       display.drawLine(bulx - 6, buly + 6, bulx + 6, buly - 6, WHITE);
     }
 
-    //standaard dingen
+    //standard stuff (Starring: Circle as the big plannet, Triangle as the space ship)
     display.fillCircle(-58, 32, 64, WHITE);
     display.setCursor(0, 0);
     display.print(score);
     display.drawTriangle(x1, y1, x2, y2, x3, y3, WHITE);
     display.display();
 
-    //besturings variabelen
+    //traingle controll variables
     y1 = y1 + stepUD;
     y3 = y3 + stepUD;
     y2 = y2 + stepUD;
