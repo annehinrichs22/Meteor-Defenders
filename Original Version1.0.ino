@@ -134,7 +134,7 @@ void loop()  {
   luck = 50;
   trispeed = 3;
   score = 0;
-  highscore = 0;
+  // don't reset the highscore
 
   randx1 = 100;
   randx2 = 128;
