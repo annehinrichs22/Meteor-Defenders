@@ -157,8 +157,8 @@ void loop()  {
 
   luck = 50;
   trispeed = 3;
-  score = 0;
-  highscore = 0;
+  // don't reset the score
+  // don't reset the highscore
 
   randx1 = 100;
   randx2 = 128;
@@ -208,6 +208,7 @@ void loop()  {
     display.clearDisplay();
   }
  ib = 0;
+ // only reset the score here
  score  = 0;
 
 // Deel Twee --------------------The Game--------------
