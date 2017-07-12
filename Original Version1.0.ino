@@ -133,7 +133,7 @@ void loop()  {
 
   luck = 50;
   trispeed = 3;
-  score = 0;
+  // don't reset the score
   // don't reset the highscore
 
   randx1 = 100;
@@ -182,6 +182,7 @@ void loop()  {
     display.clearDisplay();
   }
 
+ // only reset the score here (for saving the highscore)
  score  = 0;
 
 // Part two --------------------The Game--------------
