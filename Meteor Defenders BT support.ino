@@ -300,6 +300,17 @@ void loop()  {
       }
       else {
         meteor = 0;
+        Serial.println("q = 1");
+      }
+      if (meteox == 1) {
+        quit = 1;
+      }
+      if ((bullet == 1) && (bulx <= meteox + 4) && (bulx >= meteox - 4) && (buly <= meteoy + 4) && (buly >= meteoy - 4)) {
+        meteor = 0;
+        bullet = 0;
+        luck = luck + 50;
+        display.drawLine(bulx - 6, buly - 6, bulx + 6, buly + 6, WHITE);
+        display.drawLine(bulx - 6, buly + 6, bulx + 6, buly - 6, WHITE);
       }
     }
     else {
@@ -307,21 +318,9 @@ void loop()  {
       meteox = random(randx1, randx2);
       meteoy = random(randy1, randy2);
     }
-
-    if (meteox == 1) {
-      quit = 1;
-    }
-    if ((bullet == 1) && ((bulx <= meteox + 4) && (bulx >= meteox - 4) && (buly <= meteoy + 4) && (buly >= meteoy - 4))) {
-      meteor = 0;
-      bullet = 0;
-      luck = luck + 50;
-      display.drawLine(bulx - 6, buly - 6, bulx + 6, buly + 6, WHITE);
-      display.drawLine(bulx - 6, buly + 6, bulx + 6, buly - 6, WHITE);
-    }
-
+    
     // meteor 2
     if (meteor2 == 1) {
-
 
       if (meteox2 > 0) {
         display.drawCircle(meteox2, meteoy2, 3, WHITE);
@@ -331,21 +330,22 @@ void loop()  {
         meteor2 = 0;
         Serial.println("q = 1");
       }
+      
+      if (meteox2 == 1) {
+      quit = 1;
+      }
+
+      if ((bullet == 1) && (bulx <= meteox2 + 4) && (bulx >= meteox2 - 4) && (buly <= meteoy2 + 4) && (buly >= meteoy2 - 4)) {
+       meteor2 = 0;
+       bullet = 0;
+       luck = luck + 50;
+       display.drawLine(bulx - 6, buly - 6, bulx + 6, buly + 6, WHITE);
+       display.drawLine(bulx - 6, buly + 6, bulx + 6, buly - 6, WHITE);
+      }
     }
     else {
       meteox2 = random(randx1, randx2);
       meteoy2 = random(randy1, randy2);
-    }
-    if (meteox2 == 1) {
-      quit = 1;
-    }
-
-    if ((bullet == 1) && ((bulx <= meteox2 + 4) && (bulx >= meteox2 - 4) && (buly <= meteoy2 + 4) && (buly >= meteoy2 - 4))) {
-      meteor2 = 0;
-      bullet = 0;
-      luck = luck + 50;
-      display.drawLine(bulx - 6, buly - 6, bulx + 6, buly + 6, WHITE);
-      display.drawLine(bulx - 6, buly + 6, bulx + 6, buly - 6, WHITE);
     }
 
     //standaard dingen
