@@ -1,7 +1,7 @@
 # Meteor-Defenders
 ### Game for OLED 128*64 display for Arduino from Adafruit.
 
-This meteor defenders game uses only the basic geometrical shapes from the Adafruit GFX library. You will see your space ship, with this you will have to defend the earth from meteors. If a meteor hits the earth the game resets.
+This meteor defenders game uses only the basic geometrical shapes from the Adafruit GFX library. You will see your spaceship, with this you will have to defend the earth from meteors. If a meteor hits the earth the game resets.
 The only thing you need besides the code and the display, are four push buttons.
 
 ### Display
@@ -16,9 +16,14 @@ The pushbuttons will have to be connected to pins:
 1. UP to A3
 2. DOWN to A0
 3. RIGHT to A1
-4. LEFT to A2
+4. LEFT to A2 (The left control is not yet used is this game.)
 
 I didn't use the build-in arduino step-down resistors but you can change the code to do that ofcourse.
+
+### Bluetooth
+
+To use the BT version of the game you can use this app: "Bluetooth RC Controller". It was originally made to control cars with but it seems to work fine for spaceships too. Up and down are the same, so is the right buttons which fires too. To connect you can use a simple HC-06 BT modem. The only pins you need are the RX and TX pins which have to connect to TX and RX of the arduino (so they flip).
+In the app there are a couple different modes you can use, the code only works if you use the app in the "Send When Change" mode.
 
 
 ### I'm trying to add:
