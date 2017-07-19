@@ -22,13 +22,13 @@ I didn't use the build-in arduino step-down resistors but you can change the cod
 
 ### Bluetooth
 
-To use the BT version of the game you can use this app: "Bluetooth RC Controller". It was originally made to control cars with but it seems to work fine for spaceships too. Up and down are the same, so is the right buttons which fires too. To connect you can use a simple HC-06 BT modem. The only pins you need are the RX and TX pins which have to connect to TX and RX of the arduino (so they flip).
-In the app there are a couple different modes you can use, the code only works if you use the app in the "Send When Change" mode.
+To use the BT version of the game you can use this app: "Bluetooth RC Controller". It was originally made to control cars with but it seems to work fine for spaceships too. Up and down do the same thing and so does the right button (which fires). To connect the app to the Arduino you can use a simple HC-06 BT modem. The only pins you need are the RX and TX pins which have to connect to TX and RX of the arduino (so they flip).
+In the app there are a couple different modes you can use, the code only works if you use the app in the "Send When Change" mode. (To connect with the Arduino you just select the correct modem from the list. If it asks for a password - which in my case it did't - try "0000", "1234" or just try no password at all.) 
 
 
 ### I'm trying to add:
 
-1. A permanently savable highscore.
+1. A permanently savable highscore. (By storing it in the PROGMEM.)
 2. A laser you can shoot with.
 3. A way to make it harder.
 4. A way to store the game on an SD-card.
