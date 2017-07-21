@@ -46,38 +46,42 @@ static const unsigned char PROGMEM logo16_glcd_bmp[] =
 
 // Dont forget to change the values in the redefinition section too!
 
-int quit = 0;
-int stepUD = 0;
+boolean quit = false;
+char stepUD = 0;
 
-int x1 = 8;
-int y1 = 6;
-int x2 = 8;
-int y2 = 20;
-int x3 = 23;
-int y3 = 13;
+char x1 = 8;
+char y1 = 6;
+char x2 = 8;
+char y2 = 20;
+char x3 = 23;
+char y3 = 13;
 
-int bulx = 0;
-int buly = 0;
-int bullet = 0;
-int bulletcounter = 0;
+char bulx = 0;
+char buly = 0;
+boolean bullet = false;
 
-int meteox = 0;
-int meteoy = 0;
-int meteor = 0;
+char meteox = 0;
+char meteoy = 0;
+boolean meteor = false;
 
-int meteox2 = 0;
-int meteoy2 = 0;
-int meteor2 = 0;
+char meteox2 = 0;
+char meteoy2 = 0;
+boolean meteor2 = false;
 
-int luck = 50;
-int trispeed = 3;
-int score = 0;
-int highscore = 0;
+char meteorsize = 3;
 
-int randx1 = 100;
-int randx2 = 128;
-int randy1 = 6;
-int randy2 = 58;
+char meteorspeed = 1;
+char bulletspeed = 4;
+
+int luck = 0;
+char trispeed = 3;
+unsigned int score = 0;
+unsigned int highscore = 0;
+
+char randx1 = 100;
+char randx2 = 127;
+char randy1 = 6;
+char randy2 = 58;
 
 void setup()   {
   Serial.begin(9600);
@@ -108,7 +112,7 @@ void setup()   {
 void loop()  {
   
   // Redefinition section
-  quit = 0;
+  quit = false;
   stepUD = 0;
 
   x1 = 8;
@@ -120,26 +124,32 @@ void loop()  {
 
   bulx = 0;
   buly = 0;
-  bullet = 0;
-  bulletcounter = 0;
+  bullet = false;
 
   meteox = 0;
   meteoy = 0;
-  meteor = 0;
+  meteor = false;
 
   meteox2 = 0;
   meteoy2 = 0;
-  meteor2 = 0;
+  meteor2 = false;
 
-  luck = 50;
+  meteorsize = 3;
+
+  bulletspeed = 4;
+  meteorspeed = 1;
+
+  luck = random(40, 100);
   trispeed = 3;
   // don't reset the score
   // don't reset the highscore
 
   randx1 = 100;
-  randx2 = 128;
+  randx2 = 127;
   randy1 = 6;
   randy2 = 58;
+
+  //intro------------------------------------------------------------------------------
   
   display.clearDisplay();
   display.setTextSize(1);
@@ -151,8 +161,6 @@ void loop()  {
   display.display();
   delay(500);
   display.clearDisplay();
-  quit = 0;
-  luck = 50;
 
 
   while (digitalRead(BUTUP) == ! HIGH) {
@@ -180,23 +188,20 @@ void loop()  {
     display.clearDisplay();
   }
 
- // only reset the score here (for saving the highscore)
  score  = 0;
 
 // Part two --------------------The Game--------------
 
-  while (quit == 0) {
-    Serial.println("deel twee");
-
+  while (quit == false) {
 
     //check if the triangle is bad
-    if ((y1 < 1) /*&& ((y2-14)<1) && ((y3-7)<1)*/) {
+    if (y1 < 1) {
       y1 = 0;
       y2 = 14;
       y3 = 7;
     }
 
-    if ((y2 > 63)/* && ((y2+14)<1) && ((y3+7)>63)*/) {
+    if (y2 > 63) {
       y1 = 49;
       y2 = 63;
       y3 = 56;
@@ -204,31 +209,25 @@ void loop()  {
 
     //check inputs
     if (digitalRead(BUTDOWN) == HIGH) {
-
-      stepUD = stepUD + trispeed;
-
+      stepUD = trispeed;
     }
 
     if (digitalRead(BUTUP) == HIGH) {
-
-      stepUD = stepUD - trispeed;
-
+      stepUD = -trispeed;
     }
 
     if (digitalRead(BUTLEFT) == HIGH) {
-
-      bullet = 1;
-
+      bullet = true;
     }
 
     //bullet maker
-    if (bullet == 1) {
-      if (bulx < 128) {
+    if (bullet == true) {
+      if (bulx < 127) {
         display.drawPixel(bulx, buly, WHITE);
-        bulx = bulx + 4;
+        bulx = bulx + bulletspeed;
       }
       else {
-        bullet = 0;
+        bullet = false;
       }
     }
     else {
@@ -239,69 +238,70 @@ void loop()  {
     //meteor maker
     if (luck < 0) {
 
-      meteor = 1;
+      meteor = true;
       if (score > 1000) {
-        meteor2 = 1;
+        meteor2 = true;
+      }
+      if (score > 1500) {
+        meteorspeed = 2;
       }
     }
 
     //meteor 1
-    if (meteor == 1) {
+    if (meteor == true) {
 
 
       if (meteox > 0) {
         display.drawCircle(meteox, meteoy, 3, WHITE);
-        meteox = meteox - 1;
+        meteox = meteox - meteorspeed;
       }
       else {
-        meteor = 0;
-        Serial.println("q = 1");
+        meteor = false;
+        quit = true;
       }
-      if (meteox == 1) {
-        quit = 1;
+      
+      if ((bullet == true) && (bulx <= meteox + meteorsize) && (bulx >= meteox - meteorsize) && (buly <= meteoy + meteorsize) && (buly >= meteoy - meteorsize)) {
+         meteor = false;
+         bullet = false;
+         luck = random(25, 125);
+         display.drawLine(bulx - 6, buly - 6, bulx + 6, buly + 6, WHITE);
+         display.drawLine(bulx - 6, buly + 6, bulx + 6, buly - 6, WHITE);
       }
-      if ((bullet == 1) && (bulx <= meteox + 4) && (bulx >= meteox - 4) && (buly <= meteoy + 4) && (buly >= meteoy - 4)) {
-        meteor = 0;
-        bullet = 0;
-        luck = luck + 50;
-        display.drawLine(bulx - 6, buly - 6, bulx + 6, buly + 6, WHITE);
-        display.drawLine(bulx - 6, buly + 6, bulx + 6, buly - 6, WHITE);
-      }
+      
     }
     else {
 
       meteox = random(randx1, randx2);
       meteoy = random(randy1, randy2);
     }
-    
+
     // meteor 2
-    if (meteor2 == 1) {
+    if (meteor2 == true) {
+
 
       if (meteox2 > 0) {
         display.drawCircle(meteox2, meteoy2, 3, WHITE);
-        meteox2 = meteox2 - 1;
+        meteox2 = meteox2 - meteorspeed;
       }
       else {
-        meteor2 = 0;
-        Serial.println("q = 1");
-      }
-      
-      if (meteox2 == 1) {
-      quit = 1;
+        meteor2 = false;
+        quit = true;
       }
 
-      if ((bullet == 1) && (bulx <= meteox2 + 4) && (bulx >= meteox2 - 4) && (buly <= meteoy2 + 4) && (buly >= meteoy2 - 4)) {
-       meteor2 = 0;
-       bullet = 0;
-       luck = luck + 50;
-       display.drawLine(bulx - 6, buly - 6, bulx + 6, buly + 6, WHITE);
-       display.drawLine(bulx - 6, buly + 6, bulx + 6, buly - 6, WHITE);
-      }
+      if ((bullet == true) && (bulx <= meteox2 + meteorsize) && (bulx >= meteox2 - meteorsize) && (buly <= meteoy2 + meteorsize) && (buly >= meteoy2 - meteorsize)) {
+         meteor2 = false;
+         bullet = false;
+         luck = random(25, 125);
+         display.drawLine(bulx - 6, buly - 6, bulx + 6, buly + 6, WHITE);
+         display.drawLine(bulx - 6, buly + 6, bulx + 6, buly - 6, WHITE);
+    }
+    
     }
     else {
       meteox2 = random(randx1, randx2);
       meteoy2 = random(randy1, randy2);
     }
+    
 
     //standard stuff (Starring: Circle as the big plannet, Triangle as the space ship)
     display.fillCircle(-58, 32, 64, WHITE);
@@ -317,7 +317,12 @@ void loop()  {
 
     //counters
     stepUD = 0;
-    luck = luck - 1;
+    if (luck > 0) {
+      luck = luck - 5;
+    }
+    else {
+      luck = -1;
+    }
     score = score + 1;
 
     delay(10);
